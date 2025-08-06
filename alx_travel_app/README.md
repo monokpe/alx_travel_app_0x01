@@ -138,3 +138,99 @@ python manage.py runserver
 The API will be accessible at `http://127.0.0.1:8000/`. You can access the Django admin at `http://127.0.0.1:8000/admin/`.
 
 ---
+
+## API Endpoints
+
+The API is accessible under the `/api/` prefix. The following resources are available:
+
+-   **/api/listings/**: For creating and listing travel listings.
+-   **/api/bookings/**: For creating and listing bookings.
+
+## Testing Endpoints with cURL
+
+You can test the endpoints using any API client like Postman, Insomnia, or `curl`. Below are examples using `curl`.
+
+### Listings (`/api/listings/`)
+
+#### 1. List all listings (GET)
+
+```bash
+curl -X GET http://127.0.0.1:8000/api/listings/
+```
+
+#### 2. Retrieve a single listing (GET)
+
+```bash
+# Replace '1' with a valid listing ID
+curl -X GET http://127.0.0.1:8000/api/listings/1/
+```
+
+#### 3. Create a new listing (POST)
+
+_Note: Replace '1' with a valid user ID for the owner._
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/listings/ \
+-H "Content-Type: application/json" \
+-d '{"title": "Cozy Beachfront Cottage", "description": "A beautiful cottage right on the beach.", "price_per_night": "150.00", "owner": 1}'
+```
+
+#### 4. Update a listing (PUT)
+
+_Note: Replace '1' with the ID of the listing to update and the owner's user ID._
+
+```bash
+curl -X PUT http://127.0.0.1:8000/api/listings/1/ \
+-H "Content-Type: application/json" \
+-d '{"title": "Updated Beachfront Cottage", "description": "Newly renovated with great views.", "price_per_night": "175.00", "owner": 1}'
+```
+
+#### 5. Delete a listing (DELETE)
+
+```bash
+# Replace '1' with the ID of the listing to delete
+curl -X DELETE http://127.0.0.1:8000/api/listings/1/
+```
+
+### Bookings (`/api/bookings/`)
+
+#### 1. List all bookings (GET)
+
+```bash
+curl -X GET http://127.0.0.1:8000/api/bookings/
+```
+
+#### 2. Create a new booking (POST)
+
+_Note: Replace '1' with a valid listing ID and '2' with a valid guest user ID._
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/bookings/ \
+-H "Content-Type: application/json" \
+-d '{"listing": 1, "guest": 2, "start_date": "2025-09-10", "end_date": "2025-09-15"}'
+```
+
+#### 3. Retrieve a single booking (GET)
+
+```bash
+# Replace '1' with a valid booking ID
+curl -X GET http://127.0.0.1:8000/api/bookings/1/
+```
+
+#### 4. Update a booking (PUT)
+
+_Note: A `ModelViewSet` also supports PUT for updates on bookings._
+
+```bash
+# Replace '1' with the ID of the booking to update.
+curl -X PUT http://127.0.0.1:8000/api/bookings/1/ \
+-H "Content-Type: application/json" \
+-d '{"listing": 1, "guest": 2, "start_date": "2025-09-11", "end_date": "2025-09-16"}'
+```
+
+#### 5. Delete a booking (DELETE)
+
+```bash
+# Replace '1' with the ID of the booking to delete
+curl -X DELETE http://127.0.0.1:8000/api/bookings/1/
+```
